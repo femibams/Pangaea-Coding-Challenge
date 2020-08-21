@@ -7,7 +7,7 @@
 3. Replace the Redis credentials in the `.env` with your own credentials
 
 ### To start up the application
- `./start-server.sh`
+ `sh ./start-server.sh`
 
 ### To setup a subscription 
 ` curl -X POST -d '{ "url": "http://localhost:8000/event"}' http://localhost:8000/subscribe/topic1`
