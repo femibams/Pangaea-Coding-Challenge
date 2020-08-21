@@ -35,5 +35,41 @@ module.exports.setup = (app) => {
         })
     })
 
-}
+    app.post('/publish/:topic', (req, res) => {
+        const { topic } = req.params
+        let reqBodyData = req.body
+        
+        // Fetch subscription body
+        client.get(topic, (err, reply) => {
+            if (err) {
+                res.status(500).send(`An error occured -> ${err}`)
+            }
 
+            const subscriptionData = JSON.parse(reply)
+            reqBodyData = JSON.stringify(reqBodyData)
+            
+            const messageData = {
+                topic,
+                body: reqBodyData
+            }
+
+            // trigger a forwarding of the data
+            return utils.postRequest(`${subscriptionData.url}`, messageData)
+              .then(() => {
+                res.status(200).send('Event triggered')
+              })
+              .catch(() => {
+                res.status(500).send('Error occured')
+              })
+        })
+    })
+
+    app.post('/event', (req, res) => {
+        const data = req.body
+
+        console.log('topic', data.topic)
+        console.log('body', data.body)
+        res.status(200).send(data)
+    })
+
+}
