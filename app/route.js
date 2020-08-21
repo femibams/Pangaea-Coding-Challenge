@@ -67,8 +67,8 @@ module.exports.setup = (app) => {
     app.post('/event', (req, res) => {
         const data = req.body
 
-        console.log('topic', data.topic)
-        console.log('body', data.body)
+        console.log('topic in Event ->', data.topic)
+        console.log('body in Event ->', data.body)
         res.status(200).send(data)
     })
 
